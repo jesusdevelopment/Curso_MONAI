@@ -28,7 +28,7 @@ import numpy as np
 import PIL
 
 import torch
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 import monai
 
@@ -157,9 +157,9 @@ y_trans = Compose([AsDiscrete(to_onehot=num_class)])
 batch_size = 512
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-train_ds = Dataset(data=train_files, transform=train_transforms)
-val_ds = Dataset(data=val_files, transform=val_transforms)
-test_ds = Dataset(data=test_files, transform=val_transforms)
+train_ds = monai.data.Dataset(data=train_files, transform=train_transforms)
+val_ds = monai.data.Dataset(data=val_files, transform=val_transforms)
+test_ds = monai.data.Dataset(data=test_files, transform=val_transforms)
 
 train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=10)
 val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=10, shuffle=False)
@@ -245,3 +245,6 @@ for epoch in range(max_epochs):
 
 print(f"train completed, best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
 writer.close()
+# %% [markdown]
+# ## Graficación de Resulatdos AUC
+
